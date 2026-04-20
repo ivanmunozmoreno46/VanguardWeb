@@ -1,0 +1,107 @@
+@import url('https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Space+Grotesk:wght@300;400;500;700&family=JetBrains+Mono:wght@100;400;700&family=Silkscreen&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-carbon: #0A0A0A;
+  --color-paper: #F2F2F2;
+  --color-intl-orange: #FF4F00;
+  --color-electric-cyan: #00F0FF;
+  --color-grey-dark: #2A2A2A;
+  
+  --font-sans: 'Space Grotesk', sans-serif;
+  --font-display: 'Syncopate', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --font-pixel: 'Silkscreen', cursive;
+}
+
+body {
+  background-color: var(--color-paper);
+  color: var(--color-carbon);
+  font-family: var(--font-sans);
+  cursor: none;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* tDR Fragmented Grid */
+.bg-tdr-grid {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-image: 
+    linear-gradient(rgba(0,0,0,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,0,0,0.05) 1px, transparent 1px);
+  background-size: 50px 50px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.halftone {
+  background-image: radial-gradient(var(--color-carbon) 1px, transparent 1px);
+  background-size: 4px 4px;
+}
+
+/* Typography Utilities */
+.text-stroke-carbon {
+  -webkit-text-stroke: 1px var(--color-carbon);
+}
+
+.text-vertical {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+}
+
+/* Industrial Components */
+.tdr-panel {
+  background-color: var(--color-carbon);
+  color: var(--color-paper);
+  border: 1px solid var(--color-carbon);
+  position: relative;
+}
+
+.tdr-btn {
+  background: var(--color-intl-orange);
+  color: var(--color-paper);
+  font-family: var(--font-display);
+  font-weight: 700;
+  padding: 0.5rem 1rem;
+  border: none;
+  text-transform: uppercase;
+  transition: all 0.2s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.tdr-btn:hover {
+  background: var(--color-carbon);
+  letter-spacing: 0.2em;
+}
+
+/* Marquee / Ticker */
+.ticker-wrapper {
+  overflow: hidden;
+  white-space: nowrap;
+  display: flex;
+}
+.ticker-content {
+  display: flex;
+  animation: ticker 25s linear infinite;
+}
+@keyframes ticker {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-paper);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-carbon);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-intl-orange);
+}
