@@ -32,7 +32,13 @@ export default function Chatbot() {
     setIsLoading(true);
 
     try {
-      const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY as string });
+      const apiKey = process.env.GEMINI_API_KEY;
+      
+      if (!apiKey || apiKey === "undefined" || apiKey.includes("MY_GEMINI_API_KEY")) {
+        throw new Error("API_KEY_MISSING: No se ha detectado una clave de API válida. Asegúrate de configurar GEMINI_API_KEY en los Secretos de AI Studio.");
+      }
+
+      const ai = new GoogleGenAI({ apiKey });
       
       // Filter out only messages that belong to the history (starting after the initial greeting)
       const history = messages
