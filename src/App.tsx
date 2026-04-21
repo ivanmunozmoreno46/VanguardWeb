@@ -11,6 +11,7 @@ import Founders from './components/Founders';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import Menu from './components/Menu';
+import Chatbot from './components/Chatbot';
 
 export default function App() {
   const [mounted, setMounted] = useState(false);
@@ -42,6 +43,8 @@ export default function App() {
       <div className="relative z-10">
         <Footer />
       </div>
+
+      <Chatbot />
     </div>
   );
 }
