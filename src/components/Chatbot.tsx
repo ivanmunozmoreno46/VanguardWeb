@@ -11,7 +11,7 @@ interface Message {
 export default function Chatbot() {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
-    { role: 'model', text: 'SISTEMA//VANGUARD INICIALIZADO. ¿En qué puedo ayudarte hoy?' }
+    { role: 'model', text: '¡Hola! Soy Vanguard. ¿En qué puedo ayudarte hoy?' }
   ]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -34,32 +34,34 @@ export default function Chatbot() {
     try {
       const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY as string });
       
-      const chatHistory = messages.map(msg => ({
-        role: msg.role,
-        parts: [{ text: msg.text }]
-      }));
+      // Filter out only messages that belong to the history (starting after the initial greeting)
+      const history = messages
+        .filter((_, idx) => idx > 0) 
+        .map(msg => ({
+          role: msg.role,
+          parts: [{ text: msg.text }]
+        }));
 
-      const response = await ai.models.generateContent({
+      const chat = ai.chats.create({
         model: "gemini-3-flash-preview",
-        contents: [
-            ...chatHistory,
-            { role: 'user', parts: [{ text: userMessage }] }
-        ],
         config: {
-          systemInstruction: `Eres Vanguard, el asistente inteligente de Vanguard Web. 
-          Vanguard Web es una agencia de desarrollo web de vanguardia inspirada en la estética tDR (The Designers Republic) y Y2K.
-          Tu tono es profesional, técnico, pero accesible y servicial. 
-          Usa ocasionalmente términos técnicos como "protocolo", "módulo", "interfaz" o "sistema" para mantener la atmósfera industrial de la web.
-          Tu objetivo es resolver dudas sobre los servicios de Vanguard Web, que incluyen desarrollo web avanzado, integración de IA y diseño disruptivo.
-          Responde siempre en español. Mantén las respuestas concisas y eficientes.`
-        }
+          systemInstruction: `Eres Vanguard, el asistente de Vanguard Web. 
+          Vanguard Web es una agencia de desarrollo web y diseño.
+          Tu tono es amable, profesional y directo. No uses jerga técnica innecesaria.
+          Responde siempre en español. Sé útil y ayuda a los usuarios con dudas sobre la empresa y sus servicios de forma natural.`
+        },
+        history: history
       });
 
-      const aiText = response.text || "Lo siento, el sistema ha experimentado un error en el protocolo de comunicación.";
+      const response = await chat.sendMessage({ 
+        message: userMessage 
+      });
+
+      const aiText = response.text || "Lo siento, no he podido procesar tu mensaje. ¿Puedes repetirlo?";
       setMessages(prev => [...prev, { role: 'model', text: aiText }]);
-    } catch (error) {
-      console.error("Chatbot Error:", error);
-      setMessages(prev => [...prev, { role: 'model', text: "ERROR//COM_LINK_FAILURE: No se puede conectar con el núcleo central." }]);
+    } catch (error: any) {
+      console.error("Chatbot Error Detail:", error);
+      setMessages(prev => [...prev, { role: 'model', text: "Lo siento, ahora mismo no puedo responder. Por favor, inténtalo de nuevo en unos momentos." }]);
     } finally {
       setIsLoading(false);
     }
@@ -70,9 +72,11 @@ export default function Chatbot() {
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, y: 20, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 20, scale: 0.95 }}
+            initial={{ opacity: 0, x: 50, scale: 0.8 }}
+            animate={{ opacity: 1, x: 0, scale: 1 }}
+            exit={{ opacity: 0, x: 50, scale: 0.8 }}
+            transition={{ type: "spring", damping: 25, stiffness: 300 }}
+            style={{ originX: 1, originY: 1 }}
             className="mb-4 w-[350px] sm:w-[400px] h-[500px] bg-[var(--color-carbon)] border-2 border-[var(--color-grey-dark)] shadow-2xl flex flex-col overflow-hidden"
           >
             {/* Header */}
@@ -80,7 +84,7 @@ export default function Chatbot() {
               <div className="flex items-center gap-3">
                 <div className="w-2 h-2 bg-[var(--color-intl-orange)] rounded-full animate-pulse" />
                 <span className="text-[10px] font-display font-bold tracking-[0.2em] text-[var(--color-paper)]">
-                  VANGUARD//CORE_AI
+                  VANGUARD//CHAT_ASSIST
                 </span>
               </div>
               <button 
@@ -96,15 +100,6 @@ export default function Chatbot() {
               ref={scrollRef}
               className="flex-1 overflow-y-auto p-4 space-y-4 scrollbar-thin scrollbar-thumb-[var(--color-grey-dark)]"
             >
-              <div className="bg-[var(--color-intl-orange)]/5 border border-[var(--color-intl-orange)]/20 p-3 mb-6">
-                <div className="flex items-start gap-2">
-                   <Terminal size={14} className="text-[var(--color-intl-orange)] mt-1" />
-                   <p className="text-[9px] text-[var(--color-paper)]/60 leading-relaxed uppercase">
-                    Advertencia: Comunicación cifrada. Todas las interacciones con el modelo Vanguard son procesadas bajo el protocolo de seguridad V.01.
-                   </p>
-                </div>
-              </div>
-
               {messages.map((msg, i) => (
                 <div 
                   key={i} 
@@ -138,7 +133,7 @@ export default function Chatbot() {
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   onKeyDown={(e) => e.key === 'Enter' && handleSend()}
-                  placeholder="Introducir comando..."
+                  placeholder="Escribe un mensaje..."
                   className="w-full bg-[var(--color-carbon)] border border-[var(--color-paper)]/20 p-3 pr-12 text-[10px] text-[var(--color-paper)] focus:outline-none focus:border-[var(--color-intl-orange)] transition-colors placeholder:text-[var(--color-paper)]/20"
                 />
                 <button 
