@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import CustomCursor from './components/CustomCursor';
 import Hero from './components/Hero';
 import Vision from './components/Vision';
+import Work from './components/Work';
 import Founders from './components/Founders';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
@@ -36,6 +37,7 @@ export default function App() {
       <main className="w-full relative z-10">
         <Hero />
         <Vision />
+        <Work />
         <Founders />
         <Contact />
       </main>

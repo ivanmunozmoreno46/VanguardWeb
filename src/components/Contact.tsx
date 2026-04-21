@@ -1,9 +1,16 @@
+import { useState } from 'react';
 import { motion } from 'motion/react';
-import { Mail, ArrowRight } from 'lucide-react';
+import { Mail, ArrowRight, Check } from 'lucide-react';
 import { TdrConsole } from './VectorGraphic';
 
+const contacts = [
+  { name: "IVÁN MUÑOZ MORENO", email: "ivanmunozmoreno46@gmail.com" },
+  { name: "ÁLVARO FERNÁNDEZ CEREZO", email: "ivanmunozmoreno46@gmail.com" } // Reusing for now
+];
+
 export default function Contact() {
-  const email = "ivanmunozmoreno46@gmail.com";
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const currentContact = contacts[selectedIndex];
 
   return (
     <section className="relative w-full py-24 bg-[var(--color-paper)] border-t border-[var(--color-carbon)] overflow-hidden">
@@ -17,7 +24,7 @@ export default function Contact() {
           <div className="space-y-12">
             <div>
               <div className="inline-block bg-[var(--color-carbon)] text-[var(--color-paper)] px-3 py-1 font-display text-[10px] font-bold tracking-widest uppercase mb-4">
-                CONTACTO // TRABAJEMOS JUNTOS
+                CONTACTO // COM_CHANNEL_V0.1
               </div>
               <h2 className="text-5xl sm:text-7xl font-display font-bold leading-[0.9] tracking-tighter uppercase text-[var(--color-carbon)]">
                 ¿TIENES UN <br />
@@ -27,55 +34,76 @@ export default function Contact() {
             
             <div className="space-y-8 max-w-sm">
                <div className="font-mono text-sm uppercase tracking-wider leading-relaxed opacity-80">
-                 Escríbenos hoy mismo y nuestro equipo te ayudará a hacer realidad tu idea con la tecnología más avanzada y un diseño de vanguardia.
+                 Escríbenos hoy mismo. Nuestro equipo de ingeniería está listo para procesar tu solicitud y convertirla en una realidad digital de alto rendimiento.
                </div>
                
-               <div className="flex flex-col gap-4">
-                  <div className="text-[10px] font-display font-bold text-[var(--color-intl-orange)] tracking-[0.3em]">CORREO ELECTRÓNICO:</div>
-                  <motion.a 
-                    href={`mailto:${email}`}
-                    className="group flex items-center gap-4 text-xl sm:text-2xl font-mono font-bold text-[var(--color-carbon)] interactive overflow-hidden"
-                    whileHover={{ x: 10 }}
-                  >
-                    <Mail size={24} className="text-[var(--color-intl-orange)] flex-shrink-0" />
-                    <span className="border-b-2 border-transparent group-hover:border-[var(--color-intl-orange)] transition-colors break-all">
-                      {email}
-                    </span>
-                    <ArrowRight className="opacity-0 group-hover:opacity-100 transition-opacity -translate-x-4 group-hover:translate-x-0 hidden sm:block" />
-                  </motion.a>
+               <div className="pt-8 border-t border-[var(--color-carbon)]/10">
+                  <div className="font-pixel text-[8px] text-[var(--color-intl-orange)] opacity-40 uppercase tracking-widest">
+                    Vanguard_Web // Communications_Terminal
+                  </div>
                </div>
             </div>
           </div>
 
           <div className="relative">
             {/* Technical Industrial Box */}
-            <div className="bg-[var(--color-carbon)] p-8 sm:p-12 relative overflow-hidden shadow-2xl">
+            <div className="bg-[var(--color-carbon)] p-8 sm:p-12 relative overflow-hidden shadow-2xl border-l-4 border-[var(--color-intl-orange)]">
                <div className="space-y-8 relative z-10">
-                  <div className="h-1 w-12 bg-[var(--color-intl-orange)]" />
+                  <div className="flex justify-between items-start">
+                    <div className="space-y-4">
+                       <div className="text-[10px] font-display font-bold text-[var(--color-paper)]/40 tracking-widest uppercase">DISPONIBILIDAD</div>
+                       <div className="flex items-center gap-4">
+                          <div className="w-3 h-3 bg-[var(--color-intl-orange)] rounded-full animate-pulse shadow-[0_0_10px_var(--color-intl-orange)]" />
+                          <div className="font-mono text-xs text-[var(--color-paper)] tracking-widest uppercase">RESPUESTA EN {"<"} 24H</div>
+                       </div>
+                    </div>
+                    <div className="font-mono text-[8px] text-[var(--color-paper)]/20 text-right">
+                      SYS_LOAD // 1.2%<br/>
+                      UPTIME // 99.9%
+                    </div>
+                  </div>
+
+                  {/* Selector inside the box */}
                   <div className="space-y-4">
-                     <div className="text-[10px] font-display font-bold text-[var(--color-paper)]/40 tracking-widest uppercase">DISPONIBILIDAD</div>
-                     <div className="flex items-center gap-4">
-                        <div className="w-3 h-3 bg-[var(--color-intl-orange)] rounded-full animate-pulse shadow-[0_0_10px_var(--color-intl-orange)]" />
-                        <div className="font-mono text-xs text-[var(--color-paper)] tracking-widest uppercase">RESPUESTA EN MENOS DE 24H</div>
-                     </div>
+                    <div className="text-[10px] font-display font-bold text-[var(--color-intl-orange)] tracking-[0.3em] uppercase">SELECCIONAR_DESTINATARIO:</div>
+                    <div className="grid grid-cols-1 gap-2">
+                      {contacts.map((c, i) => (
+                        <button
+                          key={c.name}
+                          onClick={() => setSelectedIndex(i)}
+                          className={`group flex items-center justify-between p-4 border transition-all interactive text-left ${
+                            selectedIndex === i 
+                              ? 'bg-[var(--color-grey-dark)] border-[var(--color-intl-orange)] text-[var(--color-paper)]' 
+                              : 'bg-transparent border-[var(--color-paper)]/10 text-[var(--color-paper)]/60 hover:border-[var(--color-paper)]/30'
+                          }`}
+                        >
+                          <div className="flex flex-col gap-0.5">
+                            <span className="text-[7px] font-pixel opacity-30">ID_0{i+1}</span>
+                            <span className="font-display font-bold text-[10px] tracking-wider uppercase">{c.name}</span>
+                          </div>
+                          {selectedIndex === i && <motion.div layoutId="active-dot" className="w-1.5 h-1.5 bg-[var(--color-intl-orange)]" />}
+                        </button>
+                      ))}
+                    </div>
                   </div>
                   
-                  <div className="pt-8 opacity-20">
+                  <div className="pt-4 opacity-10">
                      <TdrConsole />
                   </div>
                   
-                  <div className="pt-8">
+                  <div className="pt-4">
                      <a 
-                        href={`mailto:${email}`}
-                        className="block w-full bg-[var(--color-intl-orange)] text-[var(--color-paper)] py-4 font-display text-sm font-bold tracking-[0.2em] transform transition-transform hover:scale-[1.02] active:scale-[0.98] interactive text-center uppercase"
-                     >
-                        ENVIAR MENSAJE
+                        href={`mailto:${currentContact.email}`}
+                        className="group flex items-center justify-center gap-3 w-full bg-[var(--color-intl-orange)] text-[var(--color-paper)] py-5 font-display text-xs font-bold tracking-[0.3em] transform transition-all hover:bg-[var(--color-paper)] hover:text-[var(--color-carbon)] interactive uppercase"
+                      >
+                        <Mail size={16} />
+                        CONTACTAR CON {currentContact.name.split(' ')[0]}
                      </a>
                   </div>
                </div>
                
                {/* Decorative elements */}
-               <div className="absolute -bottom-8 -right-8 w-32 h-32 border border-[var(--color-paper)]/10 rounded-full" />
+               <div className="absolute -bottom-8 -right-8 w-32 h-32 border border-[var(--color-paper)]/5 rounded-full" />
             </div>
           </div>
 
