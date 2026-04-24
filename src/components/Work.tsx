@@ -72,16 +72,16 @@ export default function Work() {
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
-              className="group relative grid grid-cols-1 md:grid-cols-[80px_1fr_1fr_100px] items-center py-12 border-b border-[var(--color-carbon)]/10 hover:bg-[var(--color-carbon)] hover:text-[var(--color-paper)] transition-all duration-500 interactive overflow-hidden"
+              className="group relative flex flex-col md:grid md:grid-cols-[80px_1fr_1fr_100px] items-start md:items-center py-8 md:py-12 border-b border-[var(--color-carbon)]/10 hover:bg-[var(--color-carbon)] hover:text-[var(--color-paper)] transition-all duration-500 interactive overflow-hidden gap-6 md:gap-0"
             >
               {/* ID */}
-              <div className="font-pixel text-xl text-[var(--color-intl-orange)] mb-4 md:mb-0 pl-4">
+              <div className="font-pixel text-xl text-[var(--color-intl-orange)] pl-4">
                 {project.id}
               </div>
 
               {/* Title & Info */}
-              <div className="flex flex-col gap-2 pl-4 md:pl-0">
-                <h3 className="text-4xl sm:text-5xl font-display font-bold uppercase group-hover:translate-x-4 transition-transform duration-500">
+              <div className="flex flex-col gap-2 pl-4 md:pl-0 w-full">
+                <h3 className="text-3xl sm:text-4xl md:text-5xl font-display font-bold uppercase group-hover:translate-x-4 transition-transform duration-500 break-words">
                   {project.title}
                 </h3>
                 <div className="text-[10px] font-mono tracking-widest opacity-40 uppercase">
@@ -97,7 +97,7 @@ export default function Work() {
               </div>
 
               {/* Action */}
-              <div className="flex justify-end pr-8">
+              <div className="flex justify-end w-full md:w-auto pr-8 md:pr-4 lg:pr-8">
                  <div className="w-12 h-12 rounded-full border border-current flex items-center justify-center group-hover:bg-[var(--color-intl-orange)] group-hover:border-[var(--color-intl-orange)] transition-colors">
                     <ArrowUpRight className="group-hover:rotate-45 transition-transform" />
                  </div>

@@ -25,11 +25,13 @@ export default function Hero() {
             initial={{ x: -100, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
-            className="text-[15vw] sm:text-[12vw] lg:text-[160px] font-display font-bold leading-[0.8] uppercase flex flex-col tracking-[-0.05em]"
+            className="text-[14vw] sm:text-[12vw] lg:text-[160px] font-display font-bold leading-[0.8] uppercase flex flex-col tracking-[-0.05em] w-full"
           >
-            <div className="flex items-center gap-4">
-              <Logo size={120} className="hidden sm:block" />
-              <span className="text-[var(--color-carbon)]">VANGUARD</span>
+            <div className="flex items-center gap-2 sm:gap-4 flex-wrap sm:flex-nowrap">
+              <Logo size={40} className="block sm:hidden flex-shrink-0" />
+              <Logo size={80} className="hidden sm:block lg:hidden flex-shrink-0" />
+              <Logo size={120} className="hidden lg:block flex-shrink-0" />
+              <span className="text-[var(--color-carbon)] break-words w-full sm:w-auto mt-2 sm:mt-0">VANGUARD</span>
             </div>
             <span className="text-stroke-carbon text-transparent bg-clip-text">WEB</span>
           </motion.h1>

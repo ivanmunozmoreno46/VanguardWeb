@@ -32,7 +32,7 @@ export default function Founders() {
   const y2 = useTransform(scrollYProgress, [0, 1], [-40, 40]);
 
   return (
-    <section ref={containerRef} className="relative w-full py-24 bg-[var(--color-carbon)] text-[var(--color-paper)] px-6 lg:px-12 grid grid-cols-1 lg:grid-cols-2 gap-0 border-y border-[var(--color-grey-dark)]">
+    <section ref={containerRef} className="relative w-full py-12 md:py-24 bg-[var(--color-carbon)] text-[var(--color-paper)] px-4 sm:px-6 lg:px-12 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-0 border-y border-[var(--color-grey-dark)]">
       
       {/* Halftone Overlay */}
       <div className="absolute inset-0 halftone opacity-10 pointer-events-none" />
@@ -40,8 +40,10 @@ export default function Founders() {
       {founders.map((f, idx) => (
         <motion.div 
           key={f.id} 
-          style={{ y: idx === 0 ? y1 : y2 }}
-          className={`flex flex-col p-12 border border-[var(--color-grey-dark)] relative group overflow-hidden ${idx === 0 ? 'bg-[var(--color-grey-dark)]' : 'bg-[var(--color-carbon)]'}`}
+          style={{ 
+            y: typeof window !== 'undefined' && window.innerWidth >= 1024 ? (idx === 0 ? y1 : y2) : 0 
+          }}
+          className={`flex flex-col p-6 sm:p-12 border border-[var(--color-grey-dark)] relative group overflow-hidden ${idx === 0 ? 'bg-[var(--color-grey-dark)]' : 'bg-[var(--color-carbon)]'}`}
         >
           <div className="absolute top-0 left-0 w-1 h-full bg-[var(--color-intl-orange)] scale-y-0 group-hover:scale-y-100 transition-transform origin-top duration-500" />
           

@@ -30,9 +30,9 @@ export default function Menu() {
         
         <button 
           onClick={() => setIsOpen(!isOpen)}
-          className="pointer-events-auto bg-[var(--color-intl-orange)] text-[var(--color-paper)] px-8 py-3 font-display text-sm font-bold tracking-widest transition-all interactive hover:bg-[var(--color-carbon)]"
+          className="pointer-events-auto bg-[var(--color-intl-orange)] text-[var(--color-paper)] px-4 sm:px-8 py-3 font-display text-sm font-bold tracking-widest transition-all interactive hover:bg-[var(--color-carbon)]"
         >
-          {isOpen ? 'EXIT_SYS' : 'VIEW_DIR'}
+          {isOpen ? 'EXIT' : 'DIR'}
         </button>
       </nav>
 
@@ -44,7 +44,7 @@ export default function Menu() {
             animate={{ y: 0 }}
             exit={{ y: "-100%" }}
             transition={{ duration: 0.6, ease: [0.77, 0, 0.175, 1] }}
-            className="fixed inset-0 bg-[var(--color-carbon)] z-[40] flex flex-col justify-center px-12 sm:px-24 overflow-hidden"
+            className="fixed inset-0 bg-[var(--color-carbon)] z-[40] flex flex-col justify-center px-6 sm:px-12 md:px-24 overflow-hidden"
           >
             {/* Background Details */}
             <div className="absolute top-1/2 right-0 -translate-y-1/2 w-1/2 h-full flex flex-col justify-center items-end pointer-events-none z-0 pr-12 opacity-10">
