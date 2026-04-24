@@ -12,10 +12,26 @@ const projects = [
   },
   {
     id: '02',
-    title: 'PSCO Portfolio',
-    category: 'PORTFOLIO // ARCHIVE',
+    title: 'PastelStudy',
+    category: 'STUDY // ARCHIVE',
     url: 'https://pscoportfolio.vercel.app/',
     description: 'Galería de proyectos con un enfoque en la composición visual y la narrativa digital.',
+    status: 'ACTIVE'
+  },
+  {
+    id: '03',
+    title: 'La Trattoria',
+    category: 'WEBSITE // HOSPITALITY',
+    url: 'https://la-trattoria-drab.vercel.app/',
+    description: 'Espacio digital gastronómico enfocado en la presentación culinaria y reservas eficientes.',
+    status: 'ACTIVE'
+  },
+  {
+    id: '04',
+    title: 'Carnes al Toque',
+    category: 'WEBSITE // GASTRONOMY',
+    url: 'https://carnesaltoqueportfolio.vercel.app/',
+    description: 'Plataforma web enfocada en la exhibición y comercialización de productos cárnicos de alta calidad.',
     status: 'ACTIVE'
   }
 ];
