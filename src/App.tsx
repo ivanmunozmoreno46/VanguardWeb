@@ -7,12 +7,12 @@ import { useEffect, useState } from 'react';
 import CustomCursor from './components/CustomCursor';
 import Hero from './components/Hero';
 import Vision from './components/Vision';
+import Photography from './components/Photography';
 import Work from './components/Work';
 import Founders from './components/Founders';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import Menu from './components/Menu';
-import Chatbot from './components/Chatbot';
 
 export default function App() {
   const [mounted, setMounted] = useState(false);
@@ -37,6 +37,7 @@ export default function App() {
       <main className="w-full relative z-10">
         <Hero />
         <Vision />
+        <Photography />
         <Work />
         <Founders />
         <Contact />
@@ -45,8 +46,6 @@ export default function App() {
       <div className="relative z-10">
         <Footer />
       </div>
-
-      <Chatbot />
     </div>
   );
 }

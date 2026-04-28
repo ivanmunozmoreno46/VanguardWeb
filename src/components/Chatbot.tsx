@@ -32,42 +32,63 @@ export default function Chatbot() {
     setIsLoading(true);
 
     try {
-      const apiKey = process.env.GEMINI_API_KEY;
+      // Try multiple ways to find the API key
+      const apiKey = process.env.GEMINI_API_KEY || (import.meta as any).env?.VITE_GEMINI_API_KEY;
       
-      if (!apiKey || apiKey === "undefined" || apiKey.includes("MY_GEMINI_API_KEY")) {
-        throw new Error("API_KEY_MISSING: No se ha detectado una clave de API válida. Asegúrate de configurar GEMINI_API_KEY en los Secretos de AI Studio.");
+      const isInvalid = !apiKey || 
+                       apiKey === "undefined" || 
+                       apiKey === "" || 
+                       apiKey.includes("MY_GEMINI_API_KEY") || 
+                       apiKey.includes("undefined");
+
+      if (isInvalid) {
+        console.warn("GEMINI_API_KEY is not available in the environment.");
+        setMessages(prev => [...prev, { 
+          role: 'model', 
+          text: "Lo siento, la clave de API (GEMINI_API_KEY) no parece estar configurada correctamente. Por favor, asegúrate de añadirla en la sección 'Secrets' de AI Studio para que pueda responderte." 
+        }]);
+        setIsLoading(false);
+        return;
       }
 
       const ai = new GoogleGenAI({ apiKey });
       
-      // Filter out only messages that belong to the history (starting after the initial greeting)
-      const history = messages
-        .filter((_, idx) => idx > 0) 
-        .map(msg => ({
-          role: msg.role,
-          parts: [{ text: msg.text }]
-        }));
+      // Format history + current message for generateContent
+      const contents = [
+        ...messages
+          .filter((_, idx) => idx > 0) // Skip initial greeting
+          .map(msg => ({
+            role: msg.role,
+            parts: [{ text: msg.text }]
+          })),
+        {
+          role: 'user',
+          parts: [{ text: userMessage }]
+        }
+      ];
 
-      const chat = ai.chats.create({
+      const response = await ai.models.generateContent({
         model: "gemini-3-flash-preview",
+        contents: contents,
         config: {
           systemInstruction: `Eres Vanguard, el asistente de Vanguard Web. 
-          Vanguard Web es una agencia de desarrollo web y diseño.
-          Tu tono es amable, profesional y directo. No uses jerga técnica innecesaria.
+          Vanguard Web es una agencia de desarrollo web y diseño que se enfoca en estética minimalista, tipografía brutalista y alto rendimiento.
+          Tu tono es amable, profesional, algo técnico pero accesible, y directo. 
           Responde siempre en español. Sé útil y ayuda a los usuarios con dudas sobre la empresa y sus servicios de forma natural.`
-        },
-        history: history
-      });
-
-      const response = await chat.sendMessage({ 
-        message: userMessage 
+        }
       });
 
       const aiText = response.text || "Lo siento, no he podido procesar tu mensaje. ¿Puedes repetirlo?";
       setMessages(prev => [...prev, { role: 'model', text: aiText }]);
     } catch (error: any) {
       console.error("Chatbot Error Detail:", error);
-      setMessages(prev => [...prev, { role: 'model', text: "Lo siento, ahora mismo no puedo responder. Por favor, inténtalo de nuevo en unos momentos." }]);
+      let errorMessage = "Lo siento, ahora mismo no puedo responder. Por favor, inténtalo de nuevo en unos momentos.";
+      
+      if (error?.message?.includes("API_KEY")) {
+        errorMessage = "Error de configuración: Clave de API inválida o ausente.";
+      }
+      
+      setMessages(prev => [...prev, { role: 'model', text: errorMessage }]);
     } finally {
       setIsLoading(false);
     }
