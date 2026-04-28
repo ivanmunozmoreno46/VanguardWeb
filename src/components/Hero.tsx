@@ -46,14 +46,22 @@ export default function Hero() {
                initial={{ x: 100, opacity: 0 }} 
                animate={{ x: 0, opacity: 1 }} 
                transition={{ delay: 0.6, duration: 0.5 }}
-               className="flex flex-col items-end self-end"
+               className="flex flex-col items-end self-end gap-8"
             >
                <div className="text-[60px] font-pixel text-[var(--color-intl-orange)] leading-none mb-2">
                  [V.03]
                </div>
-               <div className="bg-[var(--color-intl-orange)] text-[var(--color-paper)] py-2 px-6 font-display text-sm font-bold">
-                 ACCESS DIRECTORY {" >>"}
-               </div>
+               
+               <a 
+                 href="mailto:ivanmunozmoreno46@gmail.com"
+                 className="group relative bg-[var(--color-intl-orange)] text-[var(--color-paper)] py-4 px-10 font-display text-lg font-bold tracking-[0.2em] transform transition-all hover:bg-[var(--color-carbon)] interactive uppercase overflow-hidden shadow-xl"
+               >
+                 <span className="relative z-10 flex items-center gap-3">
+                   CONTÁCTANOS
+                 </span>
+                 <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-[var(--color-paper)] opacity-50" />
+                 <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-[var(--color-paper)] opacity-50" />
+               </a>
             </motion.div>
         </div>
       </div>
